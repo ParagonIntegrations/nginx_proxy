@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(reverse.paragonintegrations.co.za www.reverse.paragonintegrations.co.za)
+domains=(paragonintegrations.co.za www.paragonintegrations.co.za)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="nelis@paragonintegrations.co.za" # Adding a valid address is strongly recommended
