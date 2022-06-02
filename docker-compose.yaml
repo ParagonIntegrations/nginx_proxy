@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  proxy:
+    container_name: proxy
+    build: ./proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - ./datadir/certs:/etc/nginx/certs:ro
+      - ./datadir/vhost.d:/etc/nginx/vhost.d
+      - ./datadir/conf:/etc/nginx/conf
+      - ./datadir/html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - proxy-tier
+
+  letsencrypt-companion:
+    container_name: letsencryptcompanion
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - ./datadir/certs:/etc/nginx/certs
+      - ./datadir/vhost.d:/etc/nginx/vhost.d
+      - ./datadir/html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-tier
+    depends_on:
+      - proxy
+
+networks:
+  proxy-tier:
