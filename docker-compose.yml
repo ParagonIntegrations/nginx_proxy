@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-  proxy:
+  nginx:
     build: docker_setup/nginx
     image: nelisvolschenk/proxy_nginx
     env_file:
