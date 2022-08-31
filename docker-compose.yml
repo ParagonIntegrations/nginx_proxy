@@ -1,44 +1,37 @@
 version: "2"
 
 services:
-  nginx:
-    build: ./nginx
-    image: evgeniy-khyst/nginx
+  proxy:
+    build: docker_setup/nginx
+    image: nelisvolschenk/proxy_nginx
     env_file:
       - ./config.env
     volumes:
-      - nginx_conf:/etc/nginx/sites
-      - letsencrypt_certs:/etc/letsencrypt
-      - certbot_acme_challenge:/var/www/certbot
-      - ./vhosts:/etc/nginx/vhosts
-      - ./html:/var/www/html
+      - ./docker_volumes/nginx/conf:/etc/nginx/sites
+      - ./docker_volumes/certbot/certs:/etc/letsencrypt
+      - ./docker_volumes/certbot/acme_challenge:/var/www/certbot
+      - ./docker_volumes/nginx/vhosts:/etc/nginx/vhosts
+      - ./docker_volumes/nginx/html:/var/www/html
     ports:
       - "80:80"
       - "443:443"
     restart: unless-stopped
 
   certbot:
-    build: ./certbot
-    image: evgeniy-khyst/certbot
+    build: docker_setup/certbot
+    image: nelisvolschenk/proxy_certbot
     env_file:
       - ./config.env
     volumes:
-      - letsencrypt_certs:/etc/letsencrypt
-      - certbot_acme_challenge:/var/www/certbot
+      - ./docker_volumes/certbot/certs:/etc/letsencrypt
+      - ./docker_volumes/certbot/acme_challenge:/var/www/certbot
 
   cron:
-    build: ./cron
-    image: evgeniy-khyst/cron
+    build: docker_setup/cron
+    image: nelisvolschenk/proxy_cron
     environment:
       COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/workdir:ro
     restart: unless-stopped
-
-volumes:
-  nginx_conf:
-    external: true
-  letsencrypt_certs:
-    external: true
-  certbot_acme_challenge:

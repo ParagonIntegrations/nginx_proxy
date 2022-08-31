@@ -284,28 +284,28 @@ docker compose logs -f
 - [`docker-compose.yml`](docker-compose.yml)
 - [`.env`](.env) - specifies `COMPOSE_PROJECT_NAME` to make container names independent from the base directory name
 - [`config.env`](config.env) - specifies project configuration, e.g. domain names, emails etc.
-- [`nginx/`](nginx/)
-  - [`Dockerfile`](nginx/Dockerfile)
-  - [`nginx.sh`](nginx/nginx.sh) - entrypoint script
-  - [`default.conf`](nginx/default.conf) - common settings for all domains. The file is copied to `/etc/nginx/conf.d/`
-  - [`gzip.conf`](nginx/gzip.conf) - Gzip compression. Included in `default.conf`
-  - [`site.conf.tpl`](nginx/site.conf.tpl) - virtual host configuration template used to create configuration files `/etc/nginx/sites/${domain}.conf` included in `default.conf`
-  - [`options-ssl-nginx.conf`](nginx/options-ssl-nginx.conf) - a configuration to get A+ rating at [SSL Server Test](https://www.ssllabs.com/ssltest/). Included in `site.conf.tpl`
-  - [`hsts.conf`](nginx/hsts.conf) - HTTP Strict Transport Security (HSTS) policy. Included in `site.conf.tpl`
-- [`vhosts/`](vhosts/)
-  - [`test1.evgeniy-khyst.com.conf`](vhosts/test1.evgeniy-khyst.com.conf) - `server` block configuration for serving static content. Included in `site.conf.tpl` (`include /etc/nginx/vhosts/${domain}.conf;`)
-  - [`test2.evgeniy-khyst.com.conf`](vhosts/test2.evgeniy-khyst.com.conf) - `server` block configuration for serving static content. Included in `site.conf.tpl` (`include /etc/nginx/vhosts/${domain}.conf;`)
-- [`html/`](html/)
-  - [`test1.evgeniy-khyst.com/`](html/test1.evgeniy-khyst.com/) - directory mounted as a webroot for `test1.evgeniy-khyst.com`. Configured in `vhosts/test1.evgeniy-khyst.com.conf`
-    - [`index.html`](html/test1.evgeniy-khyst.com/index.html)
-  - [`test2.evgeniy-khyst.com/`](html/test2.evgeniy-khyst.com/) - directory mounted as a webroot for `test2.evgeniy-khyst.com`. Configured in `vhosts/test2.evgeniy-khyst.com.conf`
-    - [`index.html`](html/test2.evgeniy-khyst.com/index.html)
-- [`certbot/`](certbot/)
-  - [`Dockerfile`](certbot/Dockerfile)
-  - [`certbot.sh`](certbot/certbot.sh) - entrypoint script
-- [`cron/`](cron/)
-  - [`Dockerfile`](cron/Dockerfile)
-  - [`renew_certs.sh`](cron/renew_certs.sh) - script executed on a daily basis to try to renew certificates
+- [`nginx/`](docker_setup/nginx/)
+  - [`Dockerfile`](docker_setup/nginx/Dockerfile)
+  - [`nginx.sh`](docker_setup/nginx/nginx.sh) - entrypoint script
+  - [`default.conf`](docker_setup/nginx/default.conf) - common settings for all domains. The file is copied to `/etc/nginx/conf.d/`
+  - [`gzip.conf`](docker_setup/nginx/gzip.conf) - Gzip compression. Included in `default.conf`
+  - [`site.conf.tpl`](docker_setup/nginx/site.conf.tpl) - virtual host configuration template used to create configuration files `/etc/nginx/sites/${domain}.conf` included in `default.conf`
+  - [`options-ssl-nginx.conf`](docker_setup/nginx/options-ssl-nginx.conf) - a configuration to get A+ rating at [SSL Server Test](https://www.ssllabs.com/ssltest/). Included in `site.conf.tpl`
+  - [`hsts.conf`](docker_setup/nginx/hsts.conf) - HTTP Strict Transport Security (HSTS) policy. Included in `site.conf.tpl`
+- [`vhosts/`](docker_volumes/nginx/vhosts/)
+  - [`test1.evgeniy-khyst.com.conf`](docker_volumes/nginx/vhosts/test1.evgeniy-khyst.com.conf) - `server` block configuration for serving static content. Included in `site.conf.tpl` (`include /etc/nginx/vhosts/${domain}.conf;`)
+  - [`test2.evgeniy-khyst.com.conf`](docker_volumes/nginx/vhosts/test2.evgeniy-khyst.com.conf) - `server` block configuration for serving static content. Included in `site.conf.tpl` (`include /etc/nginx/vhosts/${domain}.conf;`)
+- [`html/`](docker_volumes/nginx/html/)
+  - [`test1.evgeniy-khyst.com/`](docker_volumes/nginx/html/test1.evgeniy-khyst.com/) - directory mounted as a webroot for `test1.evgeniy-khyst.com`. Configured in `vhosts/test1.evgeniy-khyst.com.conf`
+    - [`index.html`](docker_volumes/nginx/html/test1.evgeniy-khyst.com/index.html)
+  - [`test2.evgeniy-khyst.com/`](docker_volumes/nginx/html/test2.evgeniy-khyst.com/) - directory mounted as a webroot for `test2.evgeniy-khyst.com`. Configured in `vhosts/test2.evgeniy-khyst.com.conf`
+    - [`index.html`](docker_volumes/nginx/html/test2.evgeniy-khyst.com/index.html)
+- [`certbot/`](docker_setup/certbot/)
+  - [`Dockerfile`](docker_setup/certbot/Dockerfile)
+  - [`certbot.sh`](docker_setup/certbot/certbot.sh) - entrypoint script
+- [`cron/`](docker_setup/cron/)
+  - [`Dockerfile`](docker_setup/cron/Dockerfile)
+  - [`renew_certs.sh`](docker_setup/cron/renew_certs.sh) - script executed on a daily basis to try to renew certificates
 
 ## <a id="bcd6f4d91c9b46c9af4d5b8c4a07db77"></a>Configuration file structure
 
